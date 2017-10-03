@@ -3,12 +3,12 @@
     "keys": [
       "ctrl+shift+t"
     ],
-    "command": "transit_text"
+    "command": "translate_text"
   },
   {
     "keys": [
       "ctrl+shift+y"
     ],
-    "command": "transit_input"
+    "command": "translate_input"
   }
 ]

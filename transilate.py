@@ -7,11 +7,11 @@ import threading
 import json
 
 
-class TransitTextCommand(sublime_plugin.TextCommand):
+class TranslateTextCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         sels = self.view.sel()
-        s = sublime.load_settings("Transit.sublime-settings")
+        s = sublime.load_settings("Translate.sublime-settings")
         translate_whole_word = s.get("translate_whole_word", False)
         for sel in sels:
             if translate_whole_word:
@@ -25,7 +25,7 @@ class TransitTextCommand(sublime_plugin.TextCommand):
                 thread.start()
 
 
-class TransitInputCommand(sublime_plugin.TextCommand):
+class TranslateInputCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         sels = self.view.sel()
