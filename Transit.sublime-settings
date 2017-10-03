@@ -1,0 +1,4 @@
+{
+    //全词翻译，当你选择了单词的一个部分，也会翻译整个单词
+    "translate_whole_word": false,
+}

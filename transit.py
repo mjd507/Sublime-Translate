@@ -11,13 +11,18 @@ class TransitCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         sels = self.view.sel()
+        s = sublime.load_settings("Transit.sublime-settings")
+        translate_whole_word = s.get("translate_whole_word", False)
         for sel in sels:
-            words = self.view.substr(sel)
+            if translate_whole_word:
+                wholeWord = self.view.word(sel)
+                words = self.view.substr(wholeWord)
+            else:
+                words = self.view.substr(sel)
             # print(words)
             thread = YouDaoApiCall(words, 5)
             thread.start()
-
-
+        
 class YouDaoApiCall(threading.Thread):
 
     def __init__(self, string, timeout):
