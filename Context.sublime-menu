@@ -1,15 +1,15 @@
 [
     {
-        "id": "Sublime-Transit",
-        "caption": "SublimeTranslate",
+        "id": "Translate",
+        "caption": "Translate",
         "children": [
             {
                 "caption": "current text",
-                "command": "transit_text"
+                "command": "translate_text"
             },
             {
                 "caption": "input text",
-                "command": "transit_input"
+                "command": "translate_input"
             }
         ]
     }
