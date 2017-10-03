@@ -1,3 +1,14 @@
 [
-  { "keys": ["super+shift+t"], "command": "transit" }
+  {
+    "keys": [
+      "super+shift+t"
+    ],
+    "command": "transit_text"
+  },
+  {
+    "keys": [
+      "super+shift+y"
+    ],
+    "command": "transit_input"
+  }
 ]

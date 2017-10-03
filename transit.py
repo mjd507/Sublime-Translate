@@ -7,7 +7,7 @@ import threading
 import json
 
 
-class TransitCommand(sublime_plugin.TextCommand):
+class TransitTextCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         sels = self.view.sel()
@@ -20,9 +20,26 @@ class TransitCommand(sublime_plugin.TextCommand):
             else:
                 words = self.view.substr(sel)
             # print(words)
-            thread = YouDaoApiCall(words, 5)
+            if words != '':
+                thread = YouDaoApiCall(words, 5)
+                thread.start()
+
+
+class TransitInputCommand(sublime_plugin.TextCommand):
+
+    def run(self, edit):
+        sels = self.view.sel()
+        sublime.active_window().show_input_panel('请输入您要翻译的单词 :)', 'enjoy everyday！', self.on_done, None, self.on_cancel)
+
+    def on_done(self, string):
+        if string != '':
+            thread = YouDaoApiCall(string, 5)
             thread.start()
-        
+
+    def on_cancel():
+        pass
+
+
 class YouDaoApiCall(threading.Thread):
 
     def __init__(self, string, timeout):
@@ -59,7 +76,7 @@ class YouDaoApiCall(threading.Thread):
         try:
             resArr = jsonObj['basic']['explains']
         except Exception as e:
-            resArr = ['未找到释义']
+            resArr = ['/(ㄒoㄒ)/~~ 未找到释义']
         finally:
             sublime.active_window().show_quick_panel(resArr, self.on_select)
 
