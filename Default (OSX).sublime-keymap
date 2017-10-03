@@ -1,13 +1,13 @@
 [
   {
     "keys": [
-      "super+shift+t"
+      "alt+t"
     ],
     "command": "translate_text"
   },
   {
     "keys": [
-      "super+shift+y"
+      "alt+i"
     ],
     "command": "translate_input"
   }
