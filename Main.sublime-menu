@@ -1,0 +1,29 @@
+[
+    {
+        "caption": "Preferences",
+        "children": [
+            {
+                "caption": "Package Settings",
+                "children": [
+                    {
+                        "caption": "Transit",
+                        "children": [
+                            {
+                                "args": {
+                                    "file": "${packages}/Sublime-Transit/Transit.sublime-settings"
+                                },
+                                "caption": "Settings - Default",
+                                "command": "open_file"
+                            }
+                        ],
+                        "id": "Sublime-Transit"
+                    }
+                ],
+                "id": "package-settings",
+                "mnemonic": "P"
+            }
+        ],
+        "id": "preferences",
+        "mnemonic": "n"
+    }
+]
