@@ -4,16 +4,16 @@
 
 tip: 有道智云的翻译服务是收费服务，具体收费可参加其[文档](http://ai.youdao.com/docs/doc-trans-price.s#p03)
 
-建议自己注册一个账号，获取 appKey 和 secretKey，将代码里的对应的 appKey 和 secretKey 换成自己的。（按一个单词 10 个字符来算，新人可免费翻译近 21 万个单词，一天翻译 100 个，可以免费用近 6 年鸟~）
+建议自己注册一个账号，获取 appKey 和 secretKey，将代码里的对应的 appKey 和 secretKey 换成自己的。（按一个单词 10 个字符来算，新人可免费翻译近 21 万个单词，一天翻译 100 个，可以免费用近 6 年了~）
 
 
 ## 效果
 
-![翻译选中文本](./pics/_01_translate_select_text.jpeg)
+![翻译选中文本](https://user-images.githubusercontent.com/8939151/31642213-65e4946c-b2af-11e7-95be-eaa90ffc2520.jpeg)
 
-![输入文本](./pics/_02_translate_input_text_1.jpeg)
+![输入文本](https://user-images.githubusercontent.com/8939151/31642231-7ab50a84-b2af-11e7-995a-05d5c5afad57.jpeg)
 
-![翻译输入文本](./pics/_02_translate_input_text_2.jpeg)
+![翻译输入文本](https://user-images.githubusercontent.com/8939151/31642241-8c547860-b2af-11e7-958f-e7680a385ff9.jpeg)
 
 ## 如何使用
 

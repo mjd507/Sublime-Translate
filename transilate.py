@@ -29,7 +29,7 @@ class TranslateInputCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         sels = self.view.sel()
-        sublime.active_window().show_input_panel('请输入您要翻译的单词 :)', 'enjoy everyday！', self.on_done, None, self.on_cancel)
+        sublime.active_window().show_input_panel('希望是个好东西，生生不息，遥不可及 :)', 'enjoy everyday！', self.on_done, None, self.on_cancel)
 
     def on_done(self, string):
         if string != '':
