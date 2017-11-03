@@ -6,13 +6,13 @@ import random
 import threading
 import json
 
-
 class TranslateTextCommand(sublime_plugin.TextCommand):
-
     def run(self, edit):
         sels = self.view.sel()
         s = sublime.load_settings("Translate.sublime-settings")
         translate_whole_word = s.get("translate_whole_word", False)
+        appKey = s.get("appKey", "")
+        secretKey = s.get("secretKey", "")
         for sel in sels:
             if translate_whole_word:
                 wholeWord = self.view.word(sel)
@@ -21,7 +21,7 @@ class TranslateTextCommand(sublime_plugin.TextCommand):
                 words = self.view.substr(sel)
             # print(words)
             if words != '':
-                thread = YouDaoApiCall(words, 5)
+                thread = YouDaoApiCall(words, appKey, secretKey, 5)
                 thread.start()
 
 
@@ -31,27 +31,30 @@ class TranslateInputCommand(sublime_plugin.TextCommand):
         sels = self.view.sel()
         sublime.active_window().show_input_panel('希望是个好东西，生生不息，遥不可及 :)', 'enjoy everyday！', self.on_done, None, self.on_cancel)
 
-    def on_done(self, string):
-        if string != '':
-            thread = YouDaoApiCall(string, 5)
+    def on_done(self, words):
+        if words != '':
+            s = sublime.load_settings("Translate.sublime-settings")
+            appKey = s.get("appKey", "")
+            secretKey = s.get("secretKey", "")
+            thread = YouDaoApiCall(words, appKey, secretKey, 5)
             thread.start()
-
     def on_cancel():
         pass
 
-
 class YouDaoApiCall(threading.Thread):
 
-    def __init__(self, string, timeout):
-        self.original = string
+    def __init__(self, words, appKey, secretKey, timeout):
+        self.words = words
+        self.appKey = appKey
+        self.secretKey = secretKey
         self.timeout = timeout
         threading.Thread.__init__(self)
 
     def run(self):
-        appKey = '075aa28fd372d61b'
-        secretKey = 'dse5SgFXbSNfkq3PrQhzeSlH0birnloZ'
+        appKey = self.appKey
+        secretKey = self.secretKey
         myurl = 'https://openapi.youdao.com/api'
-        q = self.original
+        q = self.words
         fromLang = 'auto'
         toLang = 'auto'
         salt = random.randint(1, 65536)
