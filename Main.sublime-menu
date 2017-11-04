@@ -10,9 +10,16 @@
                         "children": [
                             {
                                 "args": {
-                                    "file": "${packages}/Translate-CN/Translate.sublime-settings"
+                                    "file": "${packages}/Translate-CN/Translate-CN.sublime-settings"
                                 },
                                 "caption": "Settings - Default",
+                                "command": "open_file"
+                            },
+                            {
+                                "args": {
+                                    "file": "${packages}/User/Translate-CN.sublime-settings"
+                                },
+                                "caption": "Settings - User",
                                 "command": "open_file"
                             }
                         ],
