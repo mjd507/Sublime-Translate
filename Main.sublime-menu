@@ -10,7 +10,7 @@
                         "children": [
                             {
                                 "args": {
-                                    "file": "${packages}/Sublime-Translate/Translate.sublime-settings"
+                                    "file": "${packages}/Translate-CN/Translate.sublime-settings"
                                 },
                                 "caption": "Settings - Default",
                                 "command": "open_file"
