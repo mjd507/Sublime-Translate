@@ -1,7 +1,7 @@
 [
     {
-        "id": "Translate",
-        "caption": "Translate",
+        "id": "Translate-CN",
+        "caption": "Translate-CN",
         "children": [
             {
                 "caption": "current text",

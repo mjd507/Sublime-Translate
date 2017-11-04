@@ -6,17 +6,17 @@
                 "caption": "Package Settings",
                 "children": [
                     {
-                        "caption": "Translate",
+                        "caption": "Translate-CN",
                         "children": [
                             {
                                 "args": {
-                                    "file": "${packages}/Translate/Translate.sublime-settings"
+                                    "file": "${packages}/Sublime-Translate/Translate.sublime-settings"
                                 },
                                 "caption": "Settings - Default",
                                 "command": "open_file"
                             }
                         ],
-                        "id": "Translate"
+                        "id": "Translate-CN"
                     }
                 ],
                 "id": "package-settings",
