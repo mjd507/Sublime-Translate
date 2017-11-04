@@ -6,13 +6,17 @@ import random
 import threading
 import json
 
+def getSettings():
+    global settings
+    settings = sublime.load_settings("Translate.sublime-settings")
+
+getSettings()
+
 class TranslateTextCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         sels = self.view.sel()
         s = sublime.load_settings("Translate.sublime-settings")
-        translate_whole_word = s.get("translate_whole_word", False)
-        appKey = s.get("appKey", "")
-        secretKey = s.get("secretKey", "")
+        translate_whole_word = settings.get("translate_whole_word", False)
         for sel in sels:
             if translate_whole_word:
                 wholeWord = self.view.word(sel)
@@ -21,7 +25,7 @@ class TranslateTextCommand(sublime_plugin.TextCommand):
                 words = self.view.substr(sel)
             # print(words)
             if words != '':
-                thread = YouDaoApiCall(words, appKey, secretKey, 5)
+                thread = YouDaoApiCall(words)
                 thread.start()
 
 
@@ -33,21 +37,18 @@ class TranslateInputCommand(sublime_plugin.TextCommand):
 
     def on_done(self, words):
         if words != '':
-            s = sublime.load_settings("Translate.sublime-settings")
-            appKey = s.get("appKey", "")
-            secretKey = s.get("secretKey", "")
-            thread = YouDaoApiCall(words, appKey, secretKey, 5)
+            thread = YouDaoApiCall(words)
             thread.start()
     def on_cancel():
         pass
 
 class YouDaoApiCall(threading.Thread):
 
-    def __init__(self, words, appKey, secretKey, timeout):
+    def __init__(self, words):
         self.words = words
-        self.appKey = appKey
-        self.secretKey = secretKey
-        self.timeout = timeout
+        self.appKey = settings.get("appKey", "")
+        self.secretKey = settings.get("secretKey", "")
+        self.timeout = 5
         threading.Thread.__init__(self)
 
     def run(self):

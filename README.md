@@ -24,7 +24,7 @@ alt + t 翻译选中的文本
 alt + i 翻译输入的文本
 ```
 
-- 右击，显示快捷菜单，选中 Translate
+- 右击，显示快捷菜单，选中 Translate-CN
   - current text  翻译选中的文本
   - input text    翻译输入的文本
 
