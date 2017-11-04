@@ -35,9 +35,7 @@ alt + i 翻译输入的文本
 你可以在 Preferences --> Package Settings -->  Translate-CN --> Settings - User 下进行插件配置
 ```json
 {
-    //翻译整个单词
     "translate_whole_word": false,
-    //建议单独去有道官网申请 appKey 和 secretKey，将下面替换掉
     "appKey": "xxxxxxx",
     "secretKey": "xxxxxxx"
 }
