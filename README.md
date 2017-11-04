@@ -4,7 +4,7 @@
 
 tip: 有道智云的翻译服务是收费服务，具体收费可参加其[文档](http://ai.youdao.com/docs/doc-trans-price.s#p03)
 
-建议自己注册一个账号，获取 appKey 和 secretKey，将代码里的对应的 appKey 和 secretKey 换成自己的。（按一个单词 10 个字符来算，新人可免费翻译近 21 万个单词，一天翻译 100 个，可以免费用近 6 年了~）
+建议自己注册一个账号，获取 appKey 和 secretKey，将代码里的对应的 appKey 和 secretKey 换成自己的。（按一个单词 10 个字符来算，新人可免费翻译近 21 万个单词，一天翻译 100 个，可以免费用近 6 年）
 
 ## 安装
 - 方式一：使用 Sublime 的 「Package Control」包管理器进行安装，默认你已安装了包管理器，打开它，搜索「Translate-CN」，点击安装后，即可使用。
@@ -30,7 +30,7 @@ alt + i 翻译输入的文本
 
 ## 配置
 
-你可以在 Preferences --> Package Settings -->  Translate --> Settings - Default 下进行插件配置
+你可以在 Preferences --> Package Settings -->  Translate-CN --> Settings - Default 下进行插件配置
 ```js
 {
     //翻译整个单词
