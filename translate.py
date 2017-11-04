@@ -6,17 +6,13 @@ import random
 import threading
 import json
 
-def getSettings():
-    global settings
-    settings = sublime.load_settings("Translate.sublime-settings")
-
-getSettings()
+def get_setting(key, defVal):
+    return sublime.load_settings("Translate-CN.sublime-settings").get(key, defVal);
 
 class TranslateTextCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         sels = self.view.sel()
-        s = sublime.load_settings("Translate.sublime-settings")
-        translate_whole_word = settings.get("translate_whole_word", False)
+        translate_whole_word = get_setting("translate_whole_word", False)
         for sel in sels:
             if translate_whole_word:
                 wholeWord = self.view.word(sel)
@@ -46,8 +42,8 @@ class YouDaoApiCall(threading.Thread):
 
     def __init__(self, words):
         self.words = words
-        self.appKey = settings.get("appKey", "")
-        self.secretKey = settings.get("secretKey", "")
+        self.appKey = get_setting("appKey", "")
+        self.secretKey = get_setting("secretKey", "")
         self.timeout = 5
         threading.Thread.__init__(self)
 
