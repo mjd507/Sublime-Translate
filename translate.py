@@ -78,9 +78,10 @@ class YouDaoApiCall(threading.Thread):
         except Exception as e:
             resArr = ['/(ㄒoㄒ)/~~ 未找到释义']
         finally:
+            self.resArr = resArr;
             sublime.active_window().show_quick_panel(resArr, self.on_select)
 
     def on_select(self, index):
-        # if index > -1:
-        #     sublime.message_dialog(str(index))
+        if index > -1:
+            sublime.set_clipboard(self.resArr[index]);
         pass
