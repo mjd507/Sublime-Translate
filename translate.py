@@ -121,9 +121,7 @@ class CibaApiCall(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-
         myurl = "http://www.iciba.com/%s" % self.words
-
         try:
             response = self.s.get(myurl, timeout=self.timeout)
             soup = BeautifulSoup(response.content, "html.parser")
@@ -154,7 +152,7 @@ class CibaApiCall(threading.Thread):
                         for x in node.p:
                             if isinstance(x, bs4.element.Tag):
                                 temp_str += x.text
-                        translate_final.append(node.span.text + "\t" + temp_str)
+                        translate_final.append(node.span.text + " " + temp_str)
         if not translate_final:
             translate_final = ['/(ㄒoㄒ)/~~ 未找到释义']
         self.resArr = translate_final
