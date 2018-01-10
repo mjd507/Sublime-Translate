@@ -7,5 +7,6 @@
 {
     "translate_whole_word": false,
     "appKey": "075aa28fd372d61b",
-    "secretKey": "dse5SgFXbSNfkq3PrQhzeSlH0birnloZ"
+    "secretKey": "dse5SgFXbSNfkq3PrQhzeSlH0birnloZ",
+    "ciba": false
 }
