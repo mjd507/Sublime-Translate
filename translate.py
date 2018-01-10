@@ -81,7 +81,7 @@ class YouDaoApiCall(threading.Thread):
             conn = urllib.request.urlopen(myurl, timeout=self.timeout)
             response = conn.read()
             result = response.decode('utf-8')
-            print(result)
+            # print(result)
             self.parse(result)
             return
         except Exception as e:
@@ -132,7 +132,7 @@ class CibaApiCall(threading.Thread):
             sublime.error_message(str(e))
 
     def parse(self, result):
-        print(result)
+        # print(result)
         if not result:
             translate_final = ['/(ㄒoㄒ)/~~ 未找到释义']
         else:
@@ -140,7 +140,7 @@ class CibaApiCall(threading.Thread):
             # temp_results = result[0].find_all('ul', class_='base-list')
             # print(result[0].find_all('span', class_='prop'))
             temp_results = result[0].find_all('span', class_='prop')[0].parent.parent
-            print(temp_results)
+            # print(temp_results)
             if not temp_results:
                 translate_final = ['/(ㄒoㄒ)/~~ 未找到释义']
             else:
