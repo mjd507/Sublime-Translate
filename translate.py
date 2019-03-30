@@ -14,8 +14,10 @@ import requests
 import hashlib
 import time
 
+
 def get_setting(key, defVal):
     return sublime.load_settings("Translate-CN.sublime-settings").get(key, defVal)
+
 
 class TranslateTextCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -27,7 +29,7 @@ class TranslateTextCommand(sublime_plugin.TextCommand):
                 words = self.view.substr(wholeWord)
             else:
                 words = self.view.substr(sel)
-            #print(words)
+            # print(words)
             if words != '':
                 if get_setting("ciba", False):
                     thread = CibaApiCall(words)
@@ -40,7 +42,7 @@ class TranslateInputCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         sels = self.view.sel()
-        sublime.active_window().show_input_panel('希望是个好东西，生生不息，遥不可及 :)', 'enjoy everyday！', self.on_done, None,
+        sublime.active_window().show_input_panel('尚未佩妥剑  转眼便江湖  愿历尽千帆  归来仍少年 ', '', self.on_done, None,
                                                  self.on_cancel)
 
     def on_done(self, words):
@@ -80,7 +82,7 @@ class YouDaoApiCall(threading.Thread):
             hash_algorithm = hashlib.sha256()
             hash_algorithm.update(signStr.encode('utf-8'))
             return hash_algorithm.hexdigest()
-        
+
         YOUDAO_URL = 'http://openapi.youdao.com/api'
         APP_KEY = self.appKey
         APP_SECRET = self.secretKey
@@ -102,15 +104,15 @@ class YouDaoApiCall(threading.Thread):
         try:
             response = do_request(data)
             result = response.content.decode('utf-8')
-            if q.endswith(('.','?','!',',')):
-                self.parse(result,0)
+            if q.endswith(('.', '?', '!', ',')):
+                self.parse(result, 0)
             else:
-                self.parse(result,1)
+                self.parse(result, 1)
             return
         except Exception as e:
             sublime.error_message(str(e))
 
-    def parse(self, result,flag):
+    def parse(self, result, flag):
         jsonObj = json.loads(result)
         try:
             if flag == 1:
@@ -121,7 +123,7 @@ class YouDaoApiCall(threading.Thread):
             resArr = ['/(ㄒoㄒ)/~~ 未找到释义']
         finally:
             self.resArr = resArr
-            sublime.active_window().show_quick_panel(resArr,self.on_select)
+            sublime.active_window().show_quick_panel(resArr, self.on_select)
 
     def on_select(self, index):
         if index > -1:
