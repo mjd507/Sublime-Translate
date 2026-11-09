@@ -2,16 +2,10 @@
 import sublime
 import sublime_plugin
 import hashlib
-import urllib
-import random
 import threading
 import json
-import bs4
-from bs4 import BeautifulSoup
-import sys
 import uuid
 import requests
-import hashlib
 import time
 
 
@@ -53,7 +47,7 @@ class TranslateInputCommand(sublime_plugin.TextCommand):
                 thread = YouDaoApiCall(words)
             thread.start()
 
-    def on_cancel():
+    def on_cancel(self):
         pass
 
 
@@ -83,7 +77,7 @@ class YouDaoApiCall(threading.Thread):
             hash_algorithm.update(signStr.encode('utf-8'))
             return hash_algorithm.hexdigest()
 
-        YOUDAO_URL = 'http://openapi.youdao.com/api'
+        YOUDAO_URL = 'https://openapi.youdao.com/api'
         APP_KEY = self.appKey
         APP_SECRET = self.secretKey
         q = self.words
@@ -104,23 +98,18 @@ class YouDaoApiCall(threading.Thread):
         try:
             response = do_request(data)
             result = response.content.decode('utf-8')
-            if q.endswith(('.', '?', '!', ',')):
-                self.parse(result, 0)
-            else:
-                self.parse(result, 1)
+            self.parse(result)
             return
         except Exception as e:
             sublime.error_message(str(e))
 
-    def parse(self, result, flag):
+    def parse(self, result):
         jsonObj = json.loads(result)
+        # print(jsonObj)
         try:
-            if flag == 1:
-                resArr = jsonObj['basic']['explains']
-            else:
-                resArr = jsonObj['translation']
+            resArr = jsonObj['translation']
         except Exception as e:
-            resArr = ['/(ㄒoㄒ)/~~ 未找到释义']
+            resArr = ['Does not find the result from YouDao Api']
         finally:
             self.resArr = resArr
             sublime.active_window().show_quick_panel(resArr, self.on_select)
@@ -139,48 +128,50 @@ class CibaApiCall(threading.Thread):
         self.s = requests.session()
         # change http header
         self.s.headers.update({
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-            "Accept-Encoding": "gzip, deflate, sdch", "Accept-Language": "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Encoding": "gzip, deflate, br, zstd", 
+            "Accept-Language": "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4",
             "Cache-Control": "max-age=0",
+            "Origin": "https://www.iciba.com",
+            "referer": "https://www.iciba.com"
         })
         threading.Thread.__init__(self)
 
     def run(self):
-        myurl = "http://www.iciba.com/%s" % self.words
+        client = "6"
+        key = "1000006"
+        timestamp = str(int(time.time() * 1000))
+        word = self.words
+        sign_str = "/chat/word/v1" + client + key + timestamp +  word + "7ece94d9f9c202b0d2ec557dg4r9bc"
+
+        hash_algorithm = hashlib.md5()
+        hash_algorithm.update(sign_str.encode('utf-8'))
+        signature = hash_algorithm.hexdigest()
+
+        api_url = "https://service.iciba.com/chat/word/v1"
+        params = {
+            "client": client,
+            "key": key,
+            "timestamp": timestamp,
+            "word": word,
+            "signature": signature
+        }
         try:
-            response = self.s.get(myurl, timeout=self.timeout)
-            soup = BeautifulSoup(response.content, "html.parser")
-            temp_results = soup.find_all("div", class_="in-base")
-            self.parse(temp_results)
-            return
+            response = requests.get(api_url, params=params, timeout=self.timeout)
+            result = response.json()
+            self.parse(result)
         except Exception as e:
-            sublime.error_message(str(e))
+            sublime.error_message("Ciba Api Request Failed: " + str(e))
 
     def parse(self, result):
         # print(result)
-        if not result:
-            translate_final = ['/(ㄒoㄒ)/~~ 未找到ciba释义']
-        else:
-            # 不知道为什么在subl里ul的class就没有了。
-            # temp_results = result[0].find_all('ul', class_='base-list')
-            # print(result[0].find_all('span', class_='prop'))
-            temp_results = result[0].find_all('span', class_='prop')[0].parent.parent
-            # print(temp_results)
-            if not temp_results:
-                translate_final = ['/(ㄒoㄒ)/~~ 未找到ciba释义']
-            else:
-                # print(temp_results)
-                translate_final = []
-                for node in temp_results:
-                    if isinstance(node, bs4.element.Tag):
-                        temp_str = ''
-                        for x in node.p:
-                            if isinstance(x, bs4.element.Tag):
-                                temp_str += x.text
-                        translate_final.append(node.span.text + " " + temp_str)
+        data = result.get("data", {})
+        aiVo = data.get("aiSearchWordSentenceVo", {})
+        paraphraseMap = aiVo.get("paraphraseMap", {})
+        translate_final = [f"{k} {v}" for k, v in paraphraseMap.items()]
         if not translate_final:
-            translate_final = ['/(ㄒoㄒ)/~~ 未找到ciba释义']
+            translate_final = ['Does not find the result from Ciba!']
         self.resArr = translate_final
         sublime.active_window().show_quick_panel(translate_final, self.on_select)
 
