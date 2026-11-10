@@ -9,6 +9,6 @@
     "keys": [
       "alt+i"
     ],
-    "command": "translatet_input"
+    "command": "translate_input"
   }
 ]
